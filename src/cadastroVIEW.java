@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -140,16 +143,42 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        ProdutosDTO produto = new ProdutosDTO();
-        String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
-        
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        try {
+            
+            if (cadastroNome.getText().trim().isEmpty() || cadastroValor.getText().trim().isEmpty()){
+                javax.swing.JOptionPane.showMessageDialog(this,"Por favor, preencher todos os campos! \n" + "Aviso\n" + JOptionPane.WARNING_MESSAGE);
+                return ;
+            }
+            
+            ProdutosDTO produto = new ProdutosDTO();
+            String nome = cadastroNome.getText();
+            int valor = Integer.parseInt(cadastroValor.getText());
+            String status = "A Venda";
+            
+            produto.setNome(nome);
+            produto.setValor(valor);
+            produto.setStatus(status);
+            
+            ProdutosDAO produtodao = new ProdutosDAO();
+            boolean sucesso = produtodao.cadastrarProduto(produto);
+            
+            if (sucesso){
+                javax.swing.JOptionPane.showMessageDialog(this, "Produto cadastrado com sucesso !");
+                
+                // Limpar oscampos após cadastrar o produto
+                cadastroNome.setText("");
+                cadastroValor.setText("");
+            }else{
+                javax.swing.JOptionPane.showMessageDialog(this,"Erro ao cadastar  o produto no Banco de Dados \n" +JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(NumberFormatException e){
+            // Trata erro de digitação
+            JOptionPane.showMessageDialog(this,"Por favor, insira um valor numérico válio !\n" + JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e){
+            // Trata outros erros 
+            JOptionPane.showMessageDialog(this,"Ocorreu um erro : "+ e.getMessage());
+        }
+       
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
