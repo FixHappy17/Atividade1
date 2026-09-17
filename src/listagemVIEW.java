@@ -136,17 +136,29 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+       String idText = id_produto_venda.getText().trim();
+       
+       if(idText.isEmpty()){
+           javax.swing.JOptionPane.showMessageDialog(this,"Por favor, informe o ID produto a ser vendido! ");
+           return ;
+       }
+       try{
+           int id = Integer.parseInt(idText);
+           ProdutosDAO produtosdao = new ProdutosDAO();
+           
+           produtosdao.venderProduto(id);
+           
+           id_produto_venda.setText(""); // Limpar o campo de texto
+           listarProdutos();
+           
+       }catch(NumberFormatException e){
+           javax.swing.JOptionPane.showMessageDialog(this,"Por favor, digite um ID numérico válido ");
+       }
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        //vendasVIEW vendas = new vendasVIEW(); 
-        //vendas.setVisible(true);
+        vendasView vendas = new vendasView();
+        vendas.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
