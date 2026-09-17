@@ -26,7 +26,7 @@ public class ProdutosDTO {
     }
 
     public String getStatus() {
-        return status;
+            return status;
     }
 
     public void setId(Integer id) {
